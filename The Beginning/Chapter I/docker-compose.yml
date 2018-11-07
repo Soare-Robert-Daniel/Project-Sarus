@@ -1,0 +1,17 @@
+version: '3'
+services:
+
+  nodeserver:
+    build: ./server
+    restart: always
+    ports:
+     - "5000:5000"
+    depends_on:
+      - pythonserver
+    network_mode: "host"
+
+  pythonserver:
+    build: ./api
+    restart: always
+    ports:
+     - "6000:6000"
