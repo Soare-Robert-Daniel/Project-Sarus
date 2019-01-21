@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Servant</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation-prototype.min.css"
+          rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet"
+          type="text/css">
+    <meta class="foundation-mq">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+</head>
+<body>
+<form action="/sendOrder" method="post" class="order" id="orderinfo">
+    <table>
+        <thead>
+        <tr>
+            <th width="100">Name</th>
+            <th width="150">Ingredients</th>
+            <th width="50">Price</th>
+            <th width="50"></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for product in products %}
+            <tr>
+                <td>{{ product['name'] }} </td>
+                <td> {{ product['description'] }}</td>
+                <td>{{ product['price'] }} $</td>
+                <td>
+                    <div class="switch">
+                        <input class="switch-input" id="{{ product['name'] }}" type="checkbox"
+                               name="{{ product['name'] }}" value="{{ product['price'] }} " onchange="setBill()">
+                        <label class="switch-paddle" for="{{ product['name'] }}" onchange="setBill()">
+                            <span class="show-for-sr">Pick Pizza</span>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    <h1 id="totalValue">Total: 0$</h1>
+    <br>
+    <div id="resultSubmit">
+
+    </div>
+    <button type="button" onclick="sendorder()" class="success button">Order</button>
+</form>
+</body>
+
+<script>
+    function setBill() {
+        document.getElementById("totalValue").innerText = "Total Value: " + getTotalValue().toString() + "$";
+    }
+
+    function getTotalValue() {
+        var totalValue = 0;
+
+        var unindexed_array = $("#orderinfo").serializeArray();
+
+
+        $.map(unindexed_array, function (n, i) {
+            totalValue += parseFloat(n['value']);
+        });
+
+        return totalValue;
+    }
+
+    function getFormData($form) {
+        var unindexed_array = $form.serializeArray();
+        var indexed_array = {};
+
+        $.map(unindexed_array, function (n, i) {
+            indexed_array[n['name']] = n['value'];
+        });
+
+        return indexed_array;
+    }
+
+
+    function sendorder() {
+        var url = window.location.href + "sendOrder";
+
+        // Get the form data
+        var data = JSON.stringify({total_value: getTotalValue(), bill_info: $("#orderinfo").serializeArray()});
+        // console.log(data);
+        // Create request object
+        var request = new Request(url,
+            {
+                method: 'POST',
+                body: data,
+                headers: new Headers({'Content-Type': 'application/json'})
+            });
+
+        fetch(request)
+            .then((resp) =>
+                resp.json().then(text => {
+                        console.log(text);
+                        if (text === "ok") {
+                            statusChecker = setInterval(checkOrderStatus, 500);
+                        }
+                    }
+                )
+            )
+
+            .catch(err => {
+                // handle errors
+                console.log("Error");
+            });
+
+    }
+
+    var statusChecker;
+
+    function checkOrderStatus() {
+        var url = window.location.href + "status";
+        var request = new Request(url,
+            {
+                method: 'POST',
+                headers: new Headers({'Content-Type': 'application/json'})
+            });
+
+        fetch(request)
+            .then((resp) =>
+                resp.json().then(text => {
+                        console.log(text);
+                    }
+                )
+            )
+
+            .catch(err => {
+                // handle errors
+                console.log("Error");
+            });
+    }
+
+</script>
+
+</html>

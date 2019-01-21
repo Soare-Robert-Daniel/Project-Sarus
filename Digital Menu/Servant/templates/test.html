@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Servant</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Compressed CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css"
+          integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA=="
+          crossorigin="anonymous">
+
+</head>
+<body class="custombody">
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-lg-6 ">
+
+            <div class="jumbotron jumbotron-fluid">
+
+            </div>
+
+            <form method="post" class="order" id="orderinfo">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th width="100">Name</th>
+                        <th width="150">Ingredients</th>
+                        <th width="50">Price</th>
+                        <th width="50"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ product['name'] }} </td>
+                            <td> {{ product['description'] }}</td>
+                            <td>{{ product['price'] }} $</td>
+                            <td>
+                                <div class="switch">
+                                    <input class="switch-input" id="{{ product['name'] }}" type="checkbox"
+                                           name="{{ product['name'] }}" value="{{ product['price'] }} "
+                                           onchange="setBill()">
+                                    <label class="switch-paddle" for="{{ product['name'] }}" onchange="setBill()">
+                                        <span class="show-for-sr">Pick Pizza</span>
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+
+                <h1 id="totalValue" class="text-center shadow p-3 mb-5 bg-white rounded" style="color: #373D3F">Total
+                    Value: 0$</h1>
+                <br>
+
+                <h3 id="confirmation" class="text-center shadow p-3 mb-5 bg-white rounded" style="color: #373D3F; display: none">
+                    <span class="spinner-border text-primary float-center" role="status" style="display: inline-block">
+                        <span class="sr-only">Loading...</span>
+                    </span>
+                    Waiting For Confirmation
+                </h3>
+
+            <h3 id="confirmationResult" class="text-center shadow p-3 mb-5 bg-white rounded" style="color: #373D3F; display: none">
+
+            </h3>
+
+                <br>
+
+                <button id="sendButton" type="button" class="button float-center large" style="color: white" data-toggle="modal"
+                        data-target="#exampleModal">
+                    Send Order
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Confirm Order</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                        onclick="sendorder()">Confirm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>
+</body>
+<!-- Compressed JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js"
+        integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw=="
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+
+<script>
+    function setBill() {
+        document.getElementById("totalValue").innerText = "Total Value: " + getTotalValue().toString() + "$";
+    }
+
+    function getTotalValue() {
+        var totalValue = 0;
+
+        var unindexed_array = $("#orderinfo").serializeArray();
+
+
+        $.map(unindexed_array, function (n, i) {
+            totalValue += parseFloat(n['value']);
+        });
+
+        return totalValue;
+    }
+
+    function getFormData($form) {
+        var unindexed_array = $form.serializeArray();
+        var indexed_array = {};
+
+        $.map(unindexed_array, function (n, i) {
+            indexed_array[n['name']] = n['value'];
+        });
+
+        return indexed_array;
+    }
+
+    let ID;
+    function sendorder() {
+        var url = window.location.href + "sendOrder";
+
+        // Get the form data
+        var data = JSON.stringify({total_value: getTotalValue(), bill_info: $("#orderinfo").serializeArray()});
+        document.getElementById("confirmation").style.display = "block";
+        document.getElementById("sendButton").style.display = "none";
+        console.log(data);
+        // Create request object
+        var request = new Request(url,
+            {
+                method: 'POST',
+                body: data,
+                headers: new Headers({'Content-Type': 'application/json'})
+            });
+
+        fetch(request)
+            .then((resp) =>
+                resp.text().then(text => {
+                        console.log(text);
+                        const info = text.split(" ");
+                        if (info[0] === "ok") {
+                            ID = info[1];
+                            statusChecker = setInterval(checkOrderStatus, 500);
+                        }
+                    }
+                )
+            )
+        /*
+                    .catch(err => {
+                        // handle errors
+                        console.log(err.);
+                    }); */
+
+    }
+
+    var statusChecker;
+
+    function checkOrderStatus() {
+        var url = window.location.href + "/" + ID + "/status";
+        var request = new Request(url,
+            {
+                method: 'POST',
+                headers: new Headers({'Content-Type': 'application/json'})
+            });
+
+        fetch(request)
+            .then((resp) =>
+                resp.text().then(text => {
+                        console.log(text);
+                        if(text === "Accepted"){
+                            setConfirmationResult(text, "green");
+                        } else if(text === "Canceled") {
+                            setConfirmationResult(text, "red");
+                        }
+                    }
+                )
+            )
+
+            .catch(err => {
+                // handle errors
+                console.log("Error Status");
+            });
+    }
+
+    function setConfirmationResult(text, color){
+         clearInterval(statusChecker);
+
+         document.getElementById("confirmationResult").style.display = "block";
+         document.getElementById("confirmation").style.display = "none";
+
+         document.getElementById("confirmationResult").style.color = color;
+         document.getElementById("confirmationResult").innerText = text;
+    }
+</script>
+
+</html>

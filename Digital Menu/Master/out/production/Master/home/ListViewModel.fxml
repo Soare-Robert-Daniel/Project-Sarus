@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.HomeController">
+   <children>
+      <VBox prefHeight="600.0" prefWidth="800.0">
+         <children>
+            <HBox prefHeight="34.0" prefWidth="800.0">
+               <children>
+                  <ChoiceBox fx:id="tableFilter" prefWidth="150.0">
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </ChoiceBox>
+                  <Button fx:id="connectServerButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="Connect to server">
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Label alignment="TOP_RIGHT" text="Status: ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="300.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="statusLabel" alignment="CENTER" text="Online" textFill="#01f833">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children></HBox>
+            <TableView fx:id="table" editable="true" prefHeight="566.0" prefWidth="800.0">
+              <columns>
+                <TableColumn fx:id="idCol" minWidth="-Infinity" prefWidth="190.0" text="ID" />
+                <TableColumn fx:id="dateCol" prefWidth="150.0" text="Date" />
+                  <TableColumn fx:id="tableNameCol" prefWidth="105.0" text="Table" />
+                  <TableColumn fx:id="valueCol" text="Value" />
+                  <TableColumn fx:id="statusCol" minWidth="0.0" prefWidth="117.0" text="Status" />
+                  <TableColumn fx:id="optionsCol" prefWidth="150.0" text="Options" />
+              </columns>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

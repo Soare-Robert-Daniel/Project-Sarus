@@ -672,3 +672,18 @@ ASALocalRun/
 
 .localhistory/
 .vscode/settings.json
+Prototypes/Schema-III/train.py
+Prototypes/Schema-III/testing_classes.py
+Prototypes/Schema-III/README.md
+Prototypes/Schema-III/perceptron_template.py
+Prototypes/Schema-III/perceptron.py
+Prototypes/Schema-III/main.py
+Prototypes/Schema-III/dataset_generator/testing.py
+Prototypes/Schema-III/dataset_generator/string_functions.py
+Prototypes/Schema-III/dataset_generator/README.md
+Prototypes/Schema-III/dataset_generator/numbers_functions.py
+Prototypes/Schema-III/dataset_generator/names.txt
+Prototypes/Schema-III/dataset_generator/main.py
+Prototypes/Schema-III/dataset_generator/json_encoder.py
+Prototypes/Schema-III/dataset_generator/generator.py
+Prototypes/Schema-III/dataset_generator/attribute.py
