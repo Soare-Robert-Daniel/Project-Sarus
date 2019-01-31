@@ -10,7 +10,7 @@ The algorithm must determinate the minimum range of distances in which the bots 
 ### Installation
 Step 1. Install [pygame](https://www.pygame.org/wiki/GettingStarted#Pygame%20Installation)
 
-Step 2. run the command
+Step 2. Run the command
 ```bash
 python app.py
 ```
