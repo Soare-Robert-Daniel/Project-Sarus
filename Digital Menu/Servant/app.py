@@ -14,7 +14,7 @@ rec_stack = [] # used to get the last record
 
 starting_server_time = (time.asctime(time.localtime(time.time()))).split(" ")
 # the ID will contains the date when the server has started and a number of the last order
-# since the start of the server separated by a "#"
+# since the start of the server separated by a "___"
 last_ID = "_".join(starting_server_time) + "___0"
 
 
